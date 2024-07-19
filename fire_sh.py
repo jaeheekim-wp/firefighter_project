@@ -2,10 +2,11 @@ import pandas as pd
 import numpy as np
 
 ## 데이터 불러오기
-df = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_화재발생현황.csv")
+df = pd.read_csv("data/fire.csv")
 df
 
 df.columns
+
 
 ## 데이터 전처리
 data_2020 = df[['항목'] + df.filter(like='2020').columns.tolist()]
@@ -30,6 +31,7 @@ data_2021
 
 data_2022.columns = data_2022.iloc[0] #0번째 행을 열로
 data_2022
+
 
 data_2020 = data_2020[2:]
 data_2020
@@ -70,6 +72,7 @@ for column in columns_to_convert:
 
 data_2022.info()
 
+
 # 파생변수 만들기
 data_2020["계절"] = np.where(data_2020["항목"].isin(["3월", "4월", "5월"]),"spring",
                     np.where(data_2020["항목"].isin(["6월", "7월", "8월"]),"summer",
@@ -101,6 +104,7 @@ season_21
 season_22 = data_2022.groupby('계절').agg(계절별화재=('계','sum'))
 season_22
 
+
 # 그래프
 # 20년도 그래프를 그림- > 21년도그림 -> 22년도그림 (같이 나오게:지피티한테 물어보기)
 # 변수명 바꾸기
@@ -115,10 +119,11 @@ season
 # 계절 순서를 '봄', '여름', '가을', '겨울'로 재정렬
 season = season.loc[['spring', 'summer', 'fall', 'winter']]
 
+
 ## 그래프 시각화
 ## 연도별, 계절별 그래프
 import matplotlib.pyplot as plt
-#plt.clf()
+
 
 plt.figure(figsize=(6, 6))
 plt.plot(season.index, season['2020'], marker='o', label='2020')
@@ -141,6 +146,7 @@ data_all
 data_all = data_all.drop(columns=['year'])
 data_all = data_all.drop(columns=['계'])
 data_all
+
 
 # 요인별 평균 내기
 data_all = data_all.transpose()
@@ -169,106 +175,100 @@ rc('font', family=font_name)
 
 # 그래프그리기
 data_all["total"].plot.bar(rot=0)
-<<<<<<< HEAD
-plt.xticks(fontsize=6, rotation=45)
-plt.show()
-plt.clf()
-
-# 데이터전처리 : 계, 제품결함 빼기 
-# data_all["total"]: 1년 건수(3년 평균 낸거임)
-# 1년치 사망률 부상률을 구할거임 (1년 평균 사망자수(or부상자수)/data_all["total"])
-=======
-plt.xticks(fontsize=7, rotation=45)
+plt.xticks(fontsize=7,rotation=45)
 plt.show()
 plt.clf()
 
 
->>>>>>> ff41d87ff84106e92a9391b624b23e9fe516d870
+#요인별 사망률 부상률 분석
 
-#### 요인에 따른 인명피해
-## 데이터전처리
-# 데이터 불러오기
-damage = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_인명피해현황.csv")
-damage
-damage.columns
+di = pd.read_csv("data/di.csv")
+di
 
-# 연도별 나누기(20/21/22년도)
-damage_20 = damage[['항목'] + damage.filter(like='2020').columns.tolist()]
-damage_20
-damage_21 = damage[['항목'] + damage.filter(like='2021').columns.tolist()]
-damage_21
-damage_22 = damage[['항목'] + damage.filter(like='2022').columns.tolist()]
-damage_22
+di.columns
 
-# 열 이름 바꾸기(기존 열 삭제, 첫번째 행을 열로)
-# 필요없는 행 제거
-damage_20.columns = damage_20.iloc[0]
-damage_20 = damage_20[1:3]
-damage_20 = damage_20.reset_index(drop=True)
-damage_20 = damage_20.drop(columns=['항목','계'])
-damage_20
+di_2020 = di[['항목'] + di.filter(like='2020').columns.tolist()]
+di_2020
+di_2020.columns
 
-damage_21.columns = damage_21.iloc[0]
-damage_21 = damage_21[1:3]
-damage_21 = damage_21.reset_index(drop=True)
-damage_21 = damage_21.drop(columns=['항목','계'])
-damage_21
+di_2021 = di[['항목'] + di.filter(like='2021').columns.tolist()]
+di_2021
 
-damage_22.columns = damage_22.iloc[0]
-damage_22 = damage_22[1:3]
-damage_22 = damage_22.reset_index(drop=True)
-damage_22 = damage_22.drop(columns=['항목', '계', '제품결함'])
-damage_22
+di_2022 = di[['항목'] + di.filter(like='2022').columns.tolist()]
+di_2022
 
-damage_20 =damage_20.transpose()
-damage_21 =damage_21.transpose()
-damage_22 =damage_22.transpose()
+di_2022=di_2022.drop(columns = ["2022.22","2022.23","2022","2022.1","항목"])
+di_2022
+di_2021=di_2021.drop(columns = ["2021","2021.1","항목"])
+di_2021
+di_2020=di_2020.drop(columns = ["2020","2020.1","항목"])
+di_2020
 
-damage_all = pd.concat([damage_20, damage_21[1], damage_22[1]], axis=1)
-damage_all.columns
-damage_all
+di_2020.iloc[0,:]
 
-subset = damage_all.iloc[:, 1:4]
+columns_1 = [
+    "전기적요인", "전기적요인", "기계적요인", "기계적요인", "화학적요인", "화학적요인",
+    "가스누출", "가스누출", "교통사고", "교통사고", "부주의", "부주의", "기타", "기타",
+    "자연적요인", "자연적요인", "방화", "방화", "방화의심", "방화의심", "미상", "미상"  
+]
 
-# 숫자로 변환 가능한 데이터만 정수형으로 변환
-subset = subset.apply(pd.to_numeric, errors='coerce').astype(np.int64)
-subset.info()
+columns_2 = [
+    "사망", "부상", "사망", "부상", "사망", "부상",
+    "사망", "부상", "사망", "부상", "사망", "부상", "사망", "부상",
+    "사망", "부상", "사망", "부상", "사망", "부상", "사망", "부상"  
+]
 
-# 합을 구하여 'total' 열 추가
-damage_all['total'] = subset.sum(axis=1)
-damage_all
+for i in range(0, 22):
+    di_2020.iloc[1, i] = columns_1[i]+' '+columns_2[i]
+    di_2021.iloc[1, i] = columns_1[i]+' '+columns_2[i]
+    di_2022.iloc[1, i] = columns_1[i]+' '+columns_2[i]
+    
 
+di_2022.iloc[1, :]
 
-## 1년 사망자수or부상자수 평균
-# 평균을 구하여 'mean'열 추가
-damage_all['mean'] = damage_all['total'] / 3
-damage_all
+di_2020.columns = di_2020.iloc[1] 
+di_2021.columns = di_2020.iloc[1] 
+di_2022.columns = di_2020.iloc[1] 
+di_2020
+di_2021
+di_2022
 
+di_2020 = di_2020[2:3]
+di_2020 = di_2020.reset_index(drop=True)
+di_2020
 
-## 사망자수만
-damage_death = damage_all.iloc[0::2].copy()
-damage_death
+di_2021 = di_2021[2:3]
+di_2021 = di_2021.reset_index(drop=True)
+di_2021
 
-## 부상자수만
-damage_injury = damage_all.iloc[1::2].copy()
-damage_injury
+di_2022 = di_2022[2:3]
+di_2022 = di_2022.reset_index(drop=True)
+di_2022
 
 
-## 건수별 사망률(연단위)
-damage_death["percentage"] = (damage_death["mean"] / data_all["total"]) *100
-damage_death
+di_con = pd.concat([di_2020, di_2021, di_2022])
+di_con
 
-# 그래프
-damage_death["percentage"].plot.bar(rot=0)
-plt.xticks(fontsize=4, rotation=20)
-plt.show()
-plt.clf()
+for i in range(0, 22):
+    di_con[columns_1[i-1]+' '+columns_2[i-1]]\
+    = pd.to_numeric(di_con[columns_1[i-1]+' '+columns_2[i-1]])
 
-## 건수별 부상률(연단위)
-damage_injury["percentage"] = (damage_injury["mean"] / data_all["total"]) *100
-damage_injury
+di_con.info()
 
-# 그래프
-damage_injury["percentage"].plot.bar(rot=0)
-plt.xticks(fontsize=4, rotation=20)
-plt.show()
+di_mean = di_con.mean()
+di_mean
+
+data_tot=data_all['total']
+data_tot
+
+# 비율을 저장할 빈 Series 생성
+ratios = pd.Series()
+
+# 각 요인별로 사망과 부상 데이터를 전체 값으로 나누어 비율 계산
+for key in di_mean.index:
+    cause, status = key.split()
+    total = data_tot[cause]
+    ratio = di_mean[key] / total
+    ratios[key] = ratio
+
+print(ratios)
