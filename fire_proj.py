@@ -169,24 +169,16 @@ rc('font', family=font_name)
 
 # 그래프그리기
 data_all["total"].plot.bar(rot=0)
-<<<<<<< HEAD
-plt.xticks(fontsize=6, rotation=45)
+plt.xticks(fontsize=7, rotation=45)
 plt.show()
 plt.clf()
 
 # 데이터전처리 : 계, 제품결함 빼기 
 # data_all["total"]: 1년 건수(3년 평균 낸거임)
 # 1년치 사망률 부상률을 구할거임 (1년 평균 사망자수(or부상자수)/data_all["total"])
-=======
-plt.xticks(fontsize=7, rotation=45)
-plt.show()
-plt.clf()
 
-
->>>>>>> ff41d87ff84106e92a9391b624b23e9fe516d870
-
-#### 요인에 따른 인명피해
-## 데이터전처리
+# 요인에 따른 인명피해
+# 데이터전처리
 # 데이터 불러오기
 damage = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_인명피해현황.csv")
 damage
