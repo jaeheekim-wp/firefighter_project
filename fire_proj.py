@@ -2,11 +2,10 @@ import pandas as pd
 import numpy as np
 
 ## 데이터 불러오기
-df = pd.read_csv("C:/Users/USER/Documents/카카오톡 받은 파일/발화요인에_대한_월별_화재발생현황.csv")
+df = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_화재발생현황.csv")
 df
 
 df.columns
-
 
 ## 데이터 전처리
 data_2020 = df[['항목'] + df.filter(like='2020').columns.tolist()]
@@ -31,7 +30,6 @@ data_2021
 
 data_2022.columns = data_2022.iloc[0] #0번째 행을 열로
 data_2022
-
 
 data_2020 = data_2020[2:]
 data_2020
@@ -72,7 +70,6 @@ for column in columns_to_convert:
 
 data_2022.info()
 
-
 # 파생변수 만들기
 data_2020["계절"] = np.where(data_2020["항목"].isin(["3월", "4월", "5월"]),"spring",
                     np.where(data_2020["항목"].isin(["6월", "7월", "8월"]),"summer",
@@ -104,7 +101,6 @@ season_21
 season_22 = data_2022.groupby('계절').agg(계절별화재=('계','sum'))
 season_22
 
-
 # 그래프
 # 20년도 그래프를 그림- > 21년도그림 -> 22년도그림 (같이 나오게:지피티한테 물어보기)
 # 변수명 바꾸기
@@ -119,7 +115,6 @@ season
 # 계절 순서를 '봄', '여름', '가을', '겨울'로 재정렬
 season = season.loc[['spring', 'summer', 'fall', 'winter']]
 
-
 ## 그래프 시각화
 ## 연도별, 계절별 그래프
 import matplotlib.pyplot as plt
@@ -133,7 +128,7 @@ plt.plot(season.index, season['2022'], marker='o', label='2022')
 plt.legend()
 plt.grid(True)
 plt.show()
-
+plt.clf()
 
 ## 요인 막대그래프(3년치 통계)
 # 필요없는 열 삭제 & 데이터 합치기
@@ -146,7 +141,6 @@ data_all
 data_all = data_all.drop(columns=['year'])
 data_all = data_all.drop(columns=['계'])
 data_all
-
 
 # 요인별 평균 내기
 data_all = data_all.transpose()
@@ -175,11 +169,11 @@ rc('font', family=font_name)
 
 # 그래프그리기
 data_all["total"].plot.bar(rot=0)
-plt.xticks(fontsize=5)
+plt.xticks(fontsize=6, rotation=45)
 plt.show()
+plt.clf()
 
-
-#plt.clf()
-
-
+# 데이터전처리 : 계, 제품결함 빼기 
+# data_all["total"]: 1년 건수(3년 평균 낸거임)
+# 1년치 사망률 부상률을 구할거임 (1년 평균 사망자수(or부상자수)/data_all["total"])
 
