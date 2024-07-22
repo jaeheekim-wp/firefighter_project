@@ -225,13 +225,9 @@ damage_total = damage_total.drop(0, axis=1)
 damage_total=damage_total.astype(int)
 damage_total.info()
 
-<<<<<<< HEAD
-subset = damage_all.iloc[:, 1:4]
-=======
 # 사망, 부상 나누기
 damage_death = damage_total.iloc[::2]
 damage_injury = damage_total.iloc[1::2]
->>>>>>> 7d6bf55daa3492433bc8aeae43ab22b4b9f01b6e
 
 # 사망, 부상 합 구하기
 damage_death["total"] = damage_death.sum(axis=1)
