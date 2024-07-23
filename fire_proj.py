@@ -2,11 +2,7 @@ import pandas as pd
 import numpy as np
 
 ## 데이터 불러오기
-<<<<<<< HEAD
-df = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_화재발생현황.csv")
-=======
 df = pd.read_csv("data/fire.csv")
->>>>>>> 4d36350bdff3010409bf82bd222320efa32351b6
 df
 
 df.columns
@@ -176,10 +172,7 @@ data_all["total"].plot.bar(rot=0)
 
 plt.xticks(fontsize=7,rotation=45)
 plt.show()
-
-
 plt.clf()
-----------------------------------------------------------------------
 
 #요인에 따른 인명피해 
 import pandas as pd
@@ -237,18 +230,15 @@ subset.info()
 # 합을 구하여 'total' 열 추가
 damage_all['total'] = subset.sum(axis=1)
 damage_all
-=======
+
 plt.xticks(fontsize=7, rotation=45)
 plt.show()
 plt.clf()
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 # 데이터전처리 : 계, 제품결함 빼기 
 # data_all["total"]: 1년 건수(3년 평균 낸거임)
 # 1년치 사망률 부상률을 구할거임 (1년 평균 사망자수(or부상자수)/data_all["total"])
 
-<<<<<<< HEAD
 # 요인에 따른 인명피해
 # 데이터전처리
 # 데이터 불러오기
@@ -257,20 +247,10 @@ damage
 damage.columns
 =======
 
-=======
->>>>>>> 8f8f96b8ec9489b222fe1076bce809bedbf45013
-# 데이터전처리
-# 데이터 불러오기
-damage = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_인명피해현황.csv")
->>>>>>> 7d6bf55daa3492433bc8aeae43ab22b4b9f01b6e
-=======
-
-
 ## 1년 사망자수or부상자수 평균
 # 평균을 구하여 'mean'열 추가
 damage_all['mean'] = damage_all['total'] / 3
 damage_all
-
 
 ## 사망자수만
 damage_death = damage_all.iloc[0::2].copy()
@@ -279,7 +259,6 @@ damage_death
 ## 부상자수만
 damage_injury = damage_all.iloc[1::2].copy()
 damage_injury
-
 
 ## 건수별 사망률(연단위)
 damage_death["percentage"] = (damage_death["mean"] / data_all["total"]) *100
@@ -300,13 +279,9 @@ damage_injury["percentage"].plot.bar(rot=0)
 plt.xticks(fontsize=4, rotation=20)
 plt.show()
 
-
-
-
 # 데이터전처리
 # 데이터 불러오기
 damage = pd.read_csv("data/human_damage.csv")
->>>>>>> 4d36350bdff3010409bf82bd222320efa32351b6
 
 # 연도별 나누기(20/21/22년도)
 # 열 이름 바꾸기(기존 열 삭제, 첫번째 행을 열로)
@@ -346,7 +321,6 @@ damage_total.info()
 death = damage_total.iloc[::2]
 injury = damage_total.iloc[1::2]
 
-----------------------------------------------------------------------
 # 사망, 부상 합 구하기
 damage_death["total"] = damage_death.sum(axis=1)
 damage_injury["total"] = damage_injury.sum(axis=1)
@@ -359,7 +333,6 @@ damage_injury["mean"] = damage_injury["total"]/3
 damage_death["percentage"] = (damage_death["mean"] / data_all["total"])*100
 damage_injury["percentage"] = (damage_injury["mean"] / data_all["total"])*100
 
-----------------------------------------------------------------------------
 # 한꺼번에 추가하는 코드로 변환 
 
 # 합계 변수 / 평균 변수 / 백분율 추가하기
@@ -369,14 +342,12 @@ death_all = death.assign(total = death.sum(axis = 1),
              
 death_all
 
-wound_all = wound.assign(total = wound.sum(axis = 1),
+injury_all = injury.assign(total = injury.sum(axis = 1),
                          mean = lambda x : x["total"] / 3,
                          ratio = lambda x : (x["mean"] / data_all["total"]) * 100)
              
-wound_all
+injury_all
                            
-              
-             
 # 그래프 그리기
 death_all["ratio"].plot.bar(rot=0)
 plt.xticks(fontsize=5, rotation=20)

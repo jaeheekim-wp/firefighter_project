@@ -1,0 +1,16 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "명예소방관 시켜조"
+  navbar:
+    left:
+      - href: fire_presentation.qmd
+        text: fire_presentation
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
