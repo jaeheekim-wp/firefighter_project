@@ -138,7 +138,6 @@ data_2022
 
 data_all = pd.concat([data_2020, data_2021,data_2022])
 data_all
-data_all = data_all.drop(columns=['year'])
 data_all = data_all.drop(columns=['계'])
 data_all
 
@@ -149,8 +148,9 @@ data_all = data_all.drop("항목", axis=0)
 data_all = data_all.drop("계절", axis=0)
 data_all
 
-data_all=data_all.astype(int)
 data_all.info()
+data_all=data_all.astype(int)
+
 
 data_all["total"] = data_all.sum(axis=1)/3
 data_all
@@ -173,6 +173,7 @@ plt.xticks(fontsize=7, rotation=45)
 plt.show()
 plt.clf()
 
+<<<<<<< HEAD
 # 데이터전처리 : 계, 제품결함 빼기 
 # data_all["total"]: 1년 건수(3년 평균 낸거임)
 # 1년치 사망률 부상률을 구할거임 (1년 평균 사망자수(or부상자수)/data_all["total"])
@@ -186,6 +187,8 @@ damage
 damage.columns
 =======
 
+=======
+>>>>>>> 8f8f96b8ec9489b222fe1076bce809bedbf45013
 # 데이터전처리
 # 데이터 불러오기
 damage = pd.read_csv("C:/Users/User/Desktop/강의 자료/발화요인에_대한_월별_인명피해현황.csv")
